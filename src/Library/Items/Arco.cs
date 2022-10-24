@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Arco : Arma
+    public class Arco : IItemAtaque
     {
         public int Ataque
         {

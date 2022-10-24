@@ -1,12 +1,12 @@
 namespace RoleplayGame
 {
-    public class Capa : IItemDefensa
+    public class Frisbee : IItemAtaque
     {
-        public int Defensa
+        public int Ataque
         {
             get
             {
-                return 18;
+                return 12;
             }
         }
     }

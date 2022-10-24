@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Casco : Proteccion
+    public class Casco : IItemDefensa
     {
         public int Defensa
         {

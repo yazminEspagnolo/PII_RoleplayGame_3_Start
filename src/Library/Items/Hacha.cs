@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Hacha : Arma
+    public class Hacha : IItemAtaque
     {
         public int Ataque 
         {

@@ -1,25 +1,13 @@
 using System.Collections.Generic;
 namespace RoleplayGame
 {
-    public class Mago: PersonajeMagico
+    public abstract class PersonajeMagico: Heroe
     {
-        private int vida = 100;
-
-        private List<IItem> items = new List<IItem>();
-
         private List<IItemMagico> ItemsMagicos = new List<IItemMagico>();
-
-        public Mago(string nombre)
-        {
-            this.Nombre = nombre;
-            
-            this.AddItem(new BastonMagico());
-        }
-
-        public string Nombre { get; set; }
         
-        public int Ataque
+        public new int Ataque  
         {
+            
             get
             {
                 int value = 0;
@@ -32,7 +20,7 @@ namespace RoleplayGame
                 }
                 foreach (IItemMagico item in this.ItemsMagicos)
                 {
-                    if (item is IAtaqueItemMagico)
+                    if (item is IItemAtaque)
                     {
                         value += (item as IAtaqueItemMagico).Ataque;
                     }
@@ -40,8 +28,7 @@ namespace RoleplayGame
                 return value;
             }
         }
-
-        public int Defensa
+        public new int Defensa
         {
             get
             {
@@ -63,51 +50,26 @@ namespace RoleplayGame
                 return value;
             }
         }
-
-        public int Vida
-        {
-            get
-            {
-                return this.vida;
-            }
-            private set
-            {
-                this.vida = value < 0 ? 0 : value;
-            }
-        }
-
-        public void OfensaDeAtaque(int power)
-        {
-            if (this.Defensa < power)
-            {
-                this.Vida -= power - this.Defensa;
-            }
-        }
-
-        public void Curar()
-        {
-            this.Vida = 100;
-        }
-
-        public void AddItem(IItem item)
-        {
-            this.items.Add(item);
-        }
-
-        public void RemoveItem(IItem item)
-        {
-            this.items.Remove(item);
-        }
-
-        public void AddItem(IItemMagico item)
+      
+        public void AddItemMagico(IItemMagico item)
         {
             this.ItemsMagicos.Add(item);
         }
 
-        public void RemoveItem(IItemMagico item)
+        public void RemoveItemMagico(IItemMagico item)
         {
             this.ItemsMagicos.Remove(item);
         }
-
     }
 }
+
+/* namespace RoleplayGame
+{
+    public abstract class PersonajeMagico: Personaje
+    {
+        void AddItem(IItemMagico item);
+
+        void RemoveItem(IItemMagico item);
+    }
+}
+ */

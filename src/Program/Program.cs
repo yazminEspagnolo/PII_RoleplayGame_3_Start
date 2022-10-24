@@ -8,32 +8,53 @@ namespace Program
         static void Main(string[] args)
         {
             LibroDeHechizos book =new LibroDeHechizos();
-            book.Hechizos = new Hechizo[]{ new Hechizo() };
+            book.AddHechizo(new Cegar());
+            book.AddHechizo(new Cegar());
 
             Mago Istari = new Mago("Istari");
-            Istari.BastonMagico = new BastonMagico();
-            Istari.LibroDeHechizos = book;
+            Istari.AddItemMagico(book);
 
-            Elfo elfo = new Elfo("Elfo");
-            elfo.BastonMagico = new BastonMagico();
+            Elfo Claus = new Elfo("Claus");
 
-            Enano gruñon = new Enano("Gruñon");
-            gruñon.Hacha = new Hacha();
-            gruñon.Casco = new Casco();
-            gruñon.Escudo = new Escudo();
+            Enano Gruñon = new Enano("Gruñon");
+
+            Gruñon.AddItem(new Hacha());
+            Gruñon.AddItem(new Casco());
+            Gruñon.AddItem(new Escudo());
+            
 
             
-            Console.WriteLine($"Gruñon tiene {gruñon.Vida} de vida");
+         /*    Console.WriteLine($"Gruñon tiene {Gruñon.Vida} de vida");
             Console.WriteLine($"Istari ataca a Gruñon con {Istari.Ataque}");
 
-            gruñon.OfensaDeAtaque(Istari.Ataque);
+            Gruñon.OfensaDeAtaque(Istari.Ataque);
 
-            Console.WriteLine($"Gruñon tiene {gruñon.Vida} de vida");
+            Console.WriteLine($"Gruñon tiene {Gruñon.Vida} de vida");
 
 
-            Console.WriteLine($"Elfo ayuda a Gruñon con {elfo.Vida}");
-            gruñon.Curar();
-            Console.WriteLine($"Gruñon tiene {gruñon.Vida} de vida restaurada");
+            Console.WriteLine($"Elfo ayuda a Gruñon con {Claus.Vida}");
+            Gruñon.Curar();
+            Console.WriteLine($"Gruñon tiene {Gruñon.Vida} de vida restaurada"); */
+        
+
+        //**------------------------Encuentro----------------------------------**//
+
+            Dragon Chimuelo= new Dragon("Chimuelo");
+            Esqueleto Huesos= new Esqueleto("Huesos");
+            TortugaNinja Leonardo= new TortugaNinja("Leonardo");
+            //Creo el encuentro//
+            Encounter Encuentro1= new Encounter();
+            //Agrego los Heroes y enemigos al encuentro//
+            Encuentro1.AddHeroe(Claus);
+            Encuentro1.AddHeroe(Istari);
+            Encuentro1.AddHeroe(Gruñon);
+            Encuentro1.AddEnemigo(Chimuelo);
+            Encuentro1.AddEnemigo(Huesos);
+            Encuentro1.AddEnemigo(Leonardo);
+            //imprimo los equipos//
+            Encuentro1.printEquipo();
+            //Realizo el encuentro//
+            Encuentro1.DoEncounter();
         }
     }
 }

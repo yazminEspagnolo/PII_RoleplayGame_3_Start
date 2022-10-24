@@ -12,14 +12,10 @@ namespace Test.Library
             Assert.AreEqual(25, hacha.Ataque);
 
             Casco casco = new Casco();
-            Assert.AreEqual(15, casco.Defensa);
+            Assert.AreEqual(18, casco.Defensa);
 
             Escudo escudo = new Escudo();
-            Assert.AreEqual(15, escudo.Defensa);
-
-            Enano enano = new Enano("Gruñon");
-            Assert.AreEqual(25, enano.Ataque);
-            Assert.AreEqual(30, enano.Defensa);
+            Assert.AreEqual(14, escudo.Defensa);
 
             Anillo anillo = new Anillo();
             Assert.AreEqual(25, anillo.Defensa);

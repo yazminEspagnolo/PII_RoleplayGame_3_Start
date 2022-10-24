@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class BastonMagico
+    public class BastonMagico : IItemAtaque, IItemDefensa
     {
         public int Ataque 
         {

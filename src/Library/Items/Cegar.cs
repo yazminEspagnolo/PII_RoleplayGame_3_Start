@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Hechizo
+    public class Cegar: IHechizo
     {
         public int Ataque
         {

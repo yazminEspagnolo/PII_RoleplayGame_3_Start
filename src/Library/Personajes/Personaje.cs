@@ -1,23 +1,12 @@
 using System.Collections.Generic;
 namespace RoleplayGame
-{
-    public class Elfo: Heroe
-    {
+{ 
+    public abstract class Personaje
+    {   
         private int vida = 100;
 
-        private List<IItem> items = new List<IItem>();
-
-        public Elfo(string nombre)
-        {
-            this.Nombre = nombre;
-            
-            this.AddItem(new BastonMagico());
-            this.AddItem(new Capa());
-            this.AddItem(new Arco());
-        }
-
-        public string Nombre { get; set; }
-        
+        public List<IItem> items = new List<IItem>();
+        public string Nombre { get; set; }  
         public int Ataque
         {
             get
@@ -49,7 +38,6 @@ namespace RoleplayGame
                 return value;
             }
         }
-
         public int Vida
         {
             get
@@ -62,19 +50,6 @@ namespace RoleplayGame
             }
         }
 
-        public void OfensaDeAtaque(int power)
-        {
-            if (this.Defensa < power)
-            {
-                this.Vida -= power - this.Defensa;
-            }
-        }
-
-        public void Curar()
-        {
-            this.Vida = 100;
-        }
-
         public void AddItem(IItem item)
         {
             this.items.Add(item);
@@ -84,5 +59,21 @@ namespace RoleplayGame
         {
             this.items.Remove(item);
         }
+
+        public void Curar()
+        {
+        this.Vida = 100;
+        }
+
+        public void OfensaDeAtaque(int power)
+        {
+            if (this.Defensa < power)
+            {
+                this.Vida -= power - this.Defensa;
+            }
+        }
     }
 }
+
+    
+

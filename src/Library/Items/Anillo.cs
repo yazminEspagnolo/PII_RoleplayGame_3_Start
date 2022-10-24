@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Anillo
+    public class Anillo : IItemDefensa
     {
         public int Defensa
         {

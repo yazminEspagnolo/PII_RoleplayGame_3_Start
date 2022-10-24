@@ -1,24 +1,36 @@
 using System.Collections.Generic;
 namespace RoleplayGame
 {
-    public class Enano : Personaje
+    public class Enano: Heroe
     {
-        public Hacha Hacha { get;  set; }
-        public Casco Casco { get;  set; }
-        public Escudo Escudo { get;  set; }
+        private int vida = 100;
 
-        public Enano(string nombre) : base(nombre)
+        private List<IItem> items = new List<IItem>();
+
+        public Enano(string nombre)
         {
-            this.Hacha = new Hacha();
-            this.Casco = new Casco();
-            this.Escudo = new Escudo();
+            this.Nombre = nombre;
+
+            this.AddItem(new Hacha());
+            this.AddItem(new Escudo());
+            this.AddItem(new Casco());
         }
 
-        public int Ataque 
+        public string Nombre { get; set; }
+        
+        public int Ataque
         {
             get
             {
-                return Hacha.Ataque + Casco.Defensa;
+                int value = 0;
+                foreach (IItem item in this.items)
+                {
+                    if (item is IItemAtaque)
+                    {
+                        value += (item as IItemAtaque).Ataque;
+                    }
+                }
+                return value;
             }
         }
 
@@ -26,8 +38,51 @@ namespace RoleplayGame
         {
             get
             {
-                return Hacha.Ataque + Casco.Defensa;
+                int value = 0;
+                foreach (IItem item in this.items)
+                {
+                    if (item is IItemDefensa)
+                    {
+                        value += (item as IItemDefensa).Defensa;
+                    }
+                }
+                return value;
             }
+        }
+
+        public int Vida
+        {
+            get
+            {
+                return this.vida;
+            }
+            private set
+            {
+                this.vida = value < 0 ? 0 : value;
+            }
+        }
+
+        public void OfensaDeAtaque(int power)
+        {
+            if (this.Defensa < power)
+            {
+                this.Vida -= power - this.Defensa;
+            }
+        }
+
+        public void Curar()
+        {
+            this.Vida = 100;
+        }
+
+        public void AddItem(IItem item)
+        {
+            this.items.Add(item);
+        }
+
+        public void RemoveItem(IItem item)
+        {
+            this.items.Remove(item);
         }
     }
 }

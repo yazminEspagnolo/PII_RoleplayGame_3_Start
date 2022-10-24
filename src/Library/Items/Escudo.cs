@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Escudo : Proteccion
+    public class Escudo : IItemDefensa
     {
         public int Defensa
         {

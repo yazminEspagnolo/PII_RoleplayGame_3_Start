@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace RoleplayGame
 {
-    public class LibroDeHechizos
+    public class LibroDeHechizos : IDefensaItemMagico, IAtaqueItemMagico
     {
-        public Hechizo[] Hechizos { get; set; }
+        private List<IHechizo> hechizos = new List<IHechizo>();
         
         public int Ataque
         {
             get
             {
                 int value = 0;
-                foreach (Hechizo hechizo in this.Hechizos)
+                foreach (IHechizo hechizo in this.hechizos)
                 {
                     value += hechizo.Ataque;
                 }
@@ -24,12 +24,22 @@ namespace RoleplayGame
             get
             {
                 int value = 0;
-                foreach (Hechizo hechizo in this.Hechizos)
+                foreach (IHechizo hechizo in this.hechizos)
                 {
                     value += hechizo.Defensa;
                 }
                 return value;
             }
+        }
+
+         public void AddHechizo(IHechizo hechizo)
+        {
+            this.hechizos.Add(hechizo);
+        }
+
+        public void RemoveSpell(IHechizo hechizo)
+        {
+            this.hechizos.Remove(hechizo);
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace RoleplayGame
 {
-    public class Arma
+    public interface IItemAtaque : IItem
     {
         public int Ataque { get; }
     }
