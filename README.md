@@ -4,86 +4,82 @@
 
 ### FIT - Universidad Católica del Uruguay
 
-# Encuentros futuros de la Tierra Media
+<br>
 
-En este juego, varios personajes cobrarán vida en la Tierra Media.
+# Encuentros de herederos en la Tierra Media
 
-## Personajes [Characters]
+Los encuentros heredados en la Tierra Media no tienen nada que ver con personajes ancestrales que han pasado a mejor vida, sino con las similitudes que se pueden encontrar entre los componentes del juego. 
 
-Existen diferentes tipos de personajes provenientes de distintas especies.
+En el ejercicio anterior han encontrado algunas abstracciones útiles, pero como habrán visto, mucha de la lógica del juego se encuentra repetida en distintos objetos.
 
-### [Magos _[Wizards]_](https://lotr.fandom.com/wiki/Wizards)
-
-Los magos, también conocidos como Istari, tienen el dominio de la mágia, que provee capacidades de ataque y de defensa. La mágia es innata a ellos, aunque pueden adquirir más mediente el estudio de la asignatura, y mediante elementos que la potencian (por ejemplo, un [bastón mágico](https://ringsdb.com/bundles/cards/142008.png)).
-
-### [Elfos _[Elves]_](https://lotr.fandom.com/wiki/Elves)
-
-Los elfos son criaturas supernaturales que también poseen características mágicas, y en general son conocidos por ayudar a los demás.
-
-### [Enanos _[Dwarves]_](https://lotr.fandom.com/wiki/Dwarves)
-
-Los enanos son seres temperamentales, muy buenos en combate con las armas, físicamente fuertes, con mucha resistencia y leales a sus amigos.
-
-## Elementos _[Items]_
-
-Los personajes necesitan de ciertos elementos para poder combatir con sus enemigos. Estos elementos pueden ser ropaje (túnica, por ejemplo), armas (como un hacha o una espada), entre otros. 
-
-Existe un elemento particularmente interesante, llamado libro de hechizos. El libro de hechizos es tan poderoso como hechizos tenga en él, y representa el conocimiento de un mago.
+Si sólo existieran herramientas para reutilizar código...
 
 # Desafío
 
-## Parte 0: Repo
+## Parte 1: Refactoring
 
-Cada equipo deberá crear un repo para el desarrollo de este juego. Todos los miembros del equipo deberán tener acceso al repo.
+Refactorizen<sup>1</sup> el código de la [parte 2](https://github.com/ucudal/PII_RoleplayGame_2_Start) para aplicar técnicas de reutilización de código que conozcan.
 
-## Parte 1: Modelado
+## Parte 2: Comprobar que sigue funcionando
 
-En equipo, modelen las clases y las colaboraciones que son necesarias para representar los elementos del juego mencioandos.
+Como bien saben, el proceso de refactoring cambia la estructura del código sin cambiar su comportamiento. Para demostrar esto, agreguen los casos de test de la parte 2 (o escribanlos si no llegaron a escribirlos o recibieron feedback para mejorarlos) y comprueben que todo siga funcionando igual que antes (los tests dan verde).
 
-Recuerden: los personajes deben poder tener items. Por ejemplo, los magos pueden tener un bastón mágico, un libro de hechizos (con hechizos), etc.
+## Parte 3: Los malos (_The Bad Guys_)
 
-Deberán crear y subir al repositorio el modelo en forma de diagrama de clases.
+Crearemos un nuevo tipo de personajes: los Enemigos (_Enemies_). 
 
-## Parte 2: Creación
+Los **enemigos** son personajes (_characters_) que representan a "los malos". Los enemigos, al igual que los personajes que ya conocíamos, también tienen items para atacar y defender.
 
-Cada equipo deberá crear las clases representadas en el modelo anterior. Cada integrante deberá crear, al menos:
+También le daremos una distinción a los personajes que ya conocíamos. A partir de ahora nos referiremos a ellos como los Héroes (_Heroes_).
 
-- Un personaje  🧙‍♂️
+Una diferencia entre los héroes y los enemigos es que los héroes acumulan puntos de victoria (VP), mientras que los enemigos _tienen_ un valor de puntos de victoria (VP). Cuando un héroe mata a un enemigo, el héroe gana los VP del enemigo que mató.
 
-- Dos elementos ⚔️ 🛡
+Cada integrante del equipo deberá agregar al menos un enemigo.
 
-> Recuerden crear el libro de hechizos y sus hechizos (existe un solo _tipo_ de hechizo por ahora).
+## Parte 4: Preparando el campo de batalla
 
-### Personajes
+Incorporaremos otro nuevo concepto a nuestro juego de encuentros en la Tierra Media: los Encuentros (_Encounters_).
 
-Los personajes tienen, además de sus items, un nombre y una cantidad de vida limitada. 
+Los **encuentros** son instancias donde **dos o más** personajes se encuentran para batallar (encuentros de combate). En el futuro incorporaremos otros tipos de encuentro. 
 
-Sus items pueden además quitarse o cambiarse por otros similares (por ejemplo, darle a un mago un bastón mágico nuevo, o simplemente quitarle el que tiene).
+En un encuentro debe haber siempre personajes _Heroe_ y personajes _Enemigo_ (al menos uno de cada uno).
 
-### Elementos
+Todo encuentro deben exponer un método `void DoEncounter()` para ejecutarlo. Cuando el encuentro se ejecuta, los héroes batallarán contra los enemigos, de la siguiente forma:
 
-Los elementos tienen un valor de ataque y un valor de defensa. Es posible que en algunos casos alguno de estos valores sea 0. Por ejemplo, un elemento "Armadura" puede tener valor de ataque 0.
+- Los enemigos atacan primero. Cada enemigo ataca únicamente a un héroe. Si hay un sólo héroe, todos los enemigos atacan al mismo. Si hay más de un enemigo y más de un héroe, el primer enemigo ataca al primer héroe, el segundo enemigo ataca al segundo héroe, y así sucesivamente. Si hay menos héroes (N) que enemigos (M), el siguiente enemigo (N+1) ataca al primero héroe, el siguiente enemigo (N+2) ataca al segundo héroe, y así sucesivamente.
 
-> [Inspiración](https://ringsdb.com/find?q=t%3Aattachment)
+- Luego, los héroes sobrevivientes atacan a los enemigos. Todos los héroes atacan a cada uno de los enemigos 1 vez.
 
-## Parte 3: Cobrando poder
+- Cada vez que un héroe mata a un enemigo, ese héroe se lleva los VP del enemigo que ha vencido.
 
-Agregar al proyecto el siguiente comportamiento:
+- Se repite el primer punto.
 
-- Obtener el valor total de ataque de un personaje. ⚔️
+El encuentro termina cuando todos los héroes o todos los enemigos han muerto. Si un héroe ha conseguido 5+ (5 o más) VP, se cura.
 
-- Obtener el valor total de defensa de un personaje. 🛡
+### 4.1: Tests
 
-- Atacar a un personaje (disminuir su vida en cierta cantidad) 🗡
+Identifiquen los tests necesarios para incorporar el concepto de encuentro y agreguenlos al proyecto de test. Estos tests deben fallar en este punto.
 
-- Curar a un personaje (recuperar su vida inicial) 🚑
+Incorporen los tests a la rama *master* del repositorio (utilizando Pull Requests), y creen un [_Tag_](https://git-scm.com/book/en/v2/Git-Basics-Tagging) en este commit llamado `TDD_Start`.
 
-Justificar con comentarios en el código las decisiones que tomaron para resolver esta parte del desafío, incluyendo si utilizaron algun patrón o principio.
+### 4.2: El código
 
-## Parte 4: Testing
+Agreguen los encuentros y el código necesario para que funcionen según la lógica descrita anteriormente.
 
-Deberán escribir casos de test para probar su programa. Como equipo tendrán que evaluar qué casos de test son necesarios, y deberán incluír la justificación de cada caso de test como comentario en el código del proyecto.
+Al finalizar este paso, los tests del punto anterior (4.1) deben pasar (dan verde).
 
-Todos los integrantes del equipo deben participar de la escritura de tests (contribuyendo al menos uno de los casos).
+Incorporen el código a la rama *master* del repositorio (utilizando Pull Requests), y creen un [_Tag_](https://git-scm.com/book/en/v2/Git-Basics-Tagging) en este commit llamado `TDD_End`.
 
 
+*******
+
+## Anexo: Diagrama de clases
+
+A continuación se incluye un diagrama de clases de la solución provista en src/
+
+![Class Diagram](./docs/ClassDiagram.svg)
+
+
+*******
+
+<sup>1</sup> _«La refactorización (del inglés refactoring) es una técnica de la ingeniería de software para reestructurar un código fuente, alterando su estructura interna sin cambiar su comportamiento externo.» [Fuente](https://es.wikipedia.org/wiki/Refactorizaci%C3%B3n)_. Aquí hay también una [guía de refactoring](https://refactoring.com/catalog/) muy útil. 
