@@ -77,7 +77,7 @@ Incorporen el código a la rama *master* del repositorio (utilizando Pull Reques
 
 A continuación se incluye un diagrama de clases de la solución provista en src/
 
-![Class Diagram](./docs/ClassDiagram.svg)
+![image](https://user-images.githubusercontent.com/104398358/197652545-eae2c789-a1e8-4780-b934-4f84053d75e4.png)
 
 
 *******
